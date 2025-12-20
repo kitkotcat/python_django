@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Shop Home
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to our Shop!</h1>
+
+    <!-- Тег 1: if -->
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username|title }}!</p>
+    {% else %}
+        <p>Please log in to see personalized content.</p>
+    {% endif %}
+
+    <!-- Тег 2: for -->
+    <h2>Our Products:</h2>
+    <ul>
+    {% for product in products %}
+        <li>
+            {{ product.name|upper }} -
+            <!-- Фильтр 1: upper -->
+            Price: ${{ product.price|floatformat:2 }}
+            <!-- Фильтр 2: floatformat -->
+            (Added: {{ product.created_at|date:"Y-m-d" }})
+            <!-- Фильтр 3: date -->
+        </li>
+    {% empty %}
+        <li>No products available.</li>
+    {% endfor %}
+    </ul>
+
+    <!-- Тег 3: url -->
+    <a href="{% url 'shopapp:about' %}">About Us</a>
+{% endblock %}
